@@ -11,6 +11,7 @@ services:
       - "3306:3306"
     networks:
       - teja_network
+
   auth_service:
     image: raviteja3929/authimage:latest
     deploy:
@@ -23,6 +24,7 @@ services:
       - teja_network
     depends_on:
       - db
+
   book_service:
     image: raviteja3929/bookimage:latest
     deploy:
@@ -35,6 +37,7 @@ services:
       - teja_network
     depends_on:
       - db
+
   borrow_service:
     image: raviteja3929/borrowimage:latest
     deploy:
@@ -47,6 +50,7 @@ services:
       - teja_network
     depends_on:
       - db
+
   frontend:
     image: raviteja3929/frontendimage:latest
     deploy:
@@ -58,7 +62,8 @@ services:
       - "80:80"  # Load balancer friendly
     networks:
       - teja_network
+
 networks:
   teja_network:
     driver: overlay
-    attachable: truel
+    attachable: true
