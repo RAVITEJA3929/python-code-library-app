@@ -11,14 +11,6 @@ services:
       - "3306:3306"
     networks:
       - teja_network
-    environment:
-      - MYSQL_ROOT_PASSWORD=rootpassword
-      - MYSQL_DATABASE=library_db
-      - MYSQL_USER=library_user
-      - MYSQL_PASSWORD=library_pass
-    volumes:
-      - db_data:/var/lib/mysql
-
   auth_service:
     image: raviteja3929/authimage:latest
     deploy:
@@ -31,13 +23,6 @@ services:
       - teja_network
     depends_on:
       - db
-    environment:
-      - DATABASE_HOST=db
-      - DATABASE_PORT=3306
-      - DATABASE_NAME=library_db
-      - DATABASE_USER=library_user
-      - DATABASE_PASSWORD=library_pass
-
   book_service:
     image: raviteja3929/bookimage:latest
     deploy:
@@ -50,13 +35,6 @@ services:
       - teja_network
     depends_on:
       - db
-    environment:
-      - DATABASE_HOST=db
-      - DATABASE_PORT=3306
-      - DATABASE_NAME=library_db
-      - DATABASE_USER=library_user
-      - DATABASE_PASSWORD=library_pass
-
   borrow_service:
     image: raviteja3929/borrowimage:latest
     deploy:
@@ -69,13 +47,6 @@ services:
       - teja_network
     depends_on:
       - db
-    environment:
-      - DATABASE_HOST=db
-      - DATABASE_PORT=3306
-      - DATABASE_NAME=library_db
-      - DATABASE_USER=library_user
-      - DATABASE_PASSWORD=library_pass
-
   frontend:
     image: raviteja3929/frontendimage:latest
     deploy:
@@ -87,20 +58,7 @@ services:
       - "80:80"  # Load balancer friendly
     networks:
       - teja_network
-    depends_on:
-      - auth_service
-      - book_service
-      - borrow_service
-    environment:
-      - AUTH_SERVICE_URL=http://auth_service:5001
-      - BOOK_SERVICE_URL=http://book_service:5002
-      - BORROW_SERVICE_URL=http://borrow_service:5003
-
 networks:
   teja_network:
     driver: overlay
-    attachable: true
-
-volumes:
-  db_data:
-    driver: local
+    attachable: truel
